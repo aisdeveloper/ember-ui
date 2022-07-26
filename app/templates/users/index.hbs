@@ -1,23 +1,36 @@
 {{page-title 'User'}}
 <div class="container">
+  <div class="filter-archive">
+    {{#if this.isShowArchivedUsers }}
+    <span class="active-filter" {{on "click" (fn this.onToggleArchivedUsers false) }}>Hide archived users</span>
+    {{else}}
+    <span class="active-filter" {{on "click" (fn this.onToggleArchivedUsers true) }}>Display
+      all users</span>
+    {{/if}}
+
+  </div>
   <div class="columns is-centered">
-
     {{#each @model as |user|}}
-      <div class="column">
+    <div class="column">
 
-        <LinkTo @route="users.user" @model={{user}}>
-          <div class="user-select is-220px">
-            <img
-              class="is-pulled-left"
-              src={{user.image}}
-              width="60px"
-              alt="profile-image"
-            />
-            <p>{{user.name}}</p>
-          </div>
-        </LinkTo>
-
-      </div>
+      {{#if user.archived}}
+      {{#if this.isShowArchivedUsers}}
+      <LinkTo @route="users.user" @model={{user}}>
+        <div class="user-select is-220px archived--{{user.archived}}">
+          <img class="is-pulled-left" src={{user.image}} width="60px" alt="profile-image" />
+          <p>{{user.name}}</p>
+        </div>
+      </LinkTo>
+      {{/if}}
+      {{else}}
+      <LinkTo @route="users.user" @model={{user}}>
+        <div class="user-select is-220px archived--{{user.archived}}">
+          <img class="is-pulled-left" src={{user.image}} width="60px" alt="profile-image" />
+          <p>{{user.name}}</p>
+        </div>
+      </LinkTo>
+      {{/if}}
+    </div>
     {{/each}}
 
   </div>
